@@ -51,9 +51,9 @@ public class CourseController {
     }
 
     @GetMapping("/noGuiDang")
-    public Result noGuiDang(@RequestParam String  code ,@RequestParam String type){
+    public Result noGuiDang(@RequestParam String  code ,@RequestParam String type,@RequestParam String accountName){
         log.info("course noGuiDang参数="+code);
-        return  courseService.noGuiDang(code,type);
+        return  courseService.noGuiDang(code,type,accountName);
     }
 
     @GetMapping("/guiDangForStu")

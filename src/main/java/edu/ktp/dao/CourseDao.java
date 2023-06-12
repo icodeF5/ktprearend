@@ -23,9 +23,9 @@ public interface CourseDao {
 
     void createClass(Course course);
 
-    Boolean noGuiDangForJoin(String code);
+    Boolean noGuiDangForJoin(String code,String accountName);
 
-    Boolean noGuiDangForCreate(String code);
+    Boolean noGuiDangForCreate(String code,String accountName);
 
     List<String> getAllStudent(String code);
 

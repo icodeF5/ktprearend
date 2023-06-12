@@ -75,14 +75,14 @@
     </update>
     <select id="noGuiDangForJoin" resultType="java.lang.Boolean">
         select isTop
-        from join_course where code=#{code};
+        from join_course where code=#{code} and accountName=#{accountName};
 
         update join_course set is_guidang = false
         where code = #{code};
     </select>
     <select id="noGuiDangForCreate" resultType="java.lang.Boolean">
         select isTop
-        from creat_course where code=#{code};
+        from creat_course where code=#{code} and accountName=#{accountName};
 
         update creat_course set is_guidang = false
         where code = #{code};

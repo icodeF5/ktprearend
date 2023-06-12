@@ -57,12 +57,12 @@ public class CourseService {
         return new Result(true,null,"创建成功");
     }
 
-    public Result noGuiDang(String code,String type){
+    public Result noGuiDang(String code,String type,String accountName){
         Boolean aBoolean = false;
         if(type.equals("join")){
-            aBoolean = courseDao.noGuiDangForJoin(code);
+            aBoolean = courseDao.noGuiDangForJoin(code,accountName);
         }else{
-            aBoolean = courseDao.noGuiDangForCreate(code);
+            aBoolean = courseDao.noGuiDangForCreate(code,accountName);
         }
         return  new Result(true,aBoolean,"恢复成功");
     }

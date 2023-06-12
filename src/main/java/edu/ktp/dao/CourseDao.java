@@ -30,4 +30,10 @@ public interface CourseDao {
     List<String> getAllStudent(String code);
 
     Course getByCode(String code);
+
+    void guiDangForStu(String code,String accountName);
+
+    void guiDangForTea(String code,String accountName);
+
+    void guiDangForAll(String code);
 }

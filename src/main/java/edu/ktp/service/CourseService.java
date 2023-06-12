@@ -76,4 +76,20 @@ public class CourseService {
         return new Result(true,courseDao.getByCode(code),"无");
     }
 
+    public Result guiDangForStu(String code,String accountName){
+        courseDao.guiDangForStu(code,accountName);
+        return new Result(true,"success","归档成功");
+    }
+
+    public Result guiDangForAll(String code,String accountName){
+        courseDao.guiDangForTea(code,accountName);
+        courseDao.guiDangForAll(code);
+        return  new Result(true,"success","归档成功");
+    }
+
+    public Result guiDangForTea(String code,String accountName){
+        courseDao.guiDangForTea(code,accountName);
+        return  new Result(true,"success","归档成功");
+    }
+
 }

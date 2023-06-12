@@ -55,4 +55,20 @@ public class CourseController {
         log.info("course noGuiDang参数="+code);
         return  courseService.noGuiDang(code,type);
     }
+
+    @GetMapping("/guiDangForStu")
+    public Result guiDangForStu(@RequestParam String code,@RequestParam String accountName){
+        return courseService.guiDangForStu(code,accountName);
+    }
+
+    @GetMapping("/guiDangForAll")
+    public Result guiDangForAll(@RequestParam String code,@RequestParam String accountName){
+        return courseService.guiDangForAll(code,accountName);
+    }
+
+    @GetMapping("/guiDangForTea")
+    public Result guiDangForTea(@RequestParam String code,@RequestParam String accountName){
+        return  courseService.guiDangForTea(code,accountName);
+    }
+
 }

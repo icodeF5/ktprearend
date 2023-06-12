@@ -9,7 +9,10 @@
                 #{password},
                 #{name},
                 #{role},
-                #{school})
+                #{school},
+                #{userId},
+                #{time},
+                #{avatar})
     </insert>
 
     <!--    获取用户加入的课程-->

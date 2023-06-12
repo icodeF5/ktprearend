@@ -33,13 +33,8 @@ public class HomeWorkService {
     @Autowired
     private UserDao userDao;
 
-    @NoArgsConstructor
-    @Data
-    @AllArgsConstructor
-    private class TGrade{
-        String accountName;
-        Float grade;
-    }
+//    private String path = "D:\\study\\homework\\课堂派\\ktp\\后端-SpringBoot\\ktp\\src\\main\\resources\\static\\";
+    private String path = "src\\main\\resources\\static\\";
 
 
     public Result publishWork(HomeWork homeWork) {
@@ -59,22 +54,19 @@ public class HomeWorkService {
         return new Result(true, allWork, "无");
     }
 
-    @Autowired
-    private ResourceLoader resourceLoader;
-
     public Result uploadWork(MultipartFile file, String accountName, String id) {
         // 获取文件名
         String fileName = file.getOriginalFilename();
         // 生成新的文件名
         String newFileName = UUID.randomUUID().toString() + "."+fileName;
         // 创建资源对象
-        Resource resource = resourceLoader.getResource("classpath:templates/" + newFileName);
+        File f = new File(path+newFileName);
 
-        homeWorkDao.uploadWork("classpath:templates/"+newFileName, accountName, id);
-
+        homeWorkDao.uploadWork(path+newFileName, accountName, id);
         // 将 MultipartFile 转换为 File
         try {
-            file.transferTo(resource.getFile());
+            File newFile =  new File(f.getAbsolutePath());
+            file.transferTo(newFile);
             return new Result(true, null, "上传成功");
         } catch (IOException e) {
             return new Result(false, null, "错误!");

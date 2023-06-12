@@ -9,6 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,13 +31,17 @@ public class UserService {
             return new Result(true,null,"登录成功");
         }
     }
-    public Result loginAccount(User user){
-        try{
-            userDao.loginAccount(user);
-            return new Result(true,null,"创建成功");
-        }catch (IOException e) {
-            return new Result(false,null,"该账号已存在!");
+    public Result loginAccount(User user) {
+        user.setTime(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
+        if(userDao.getUser(user.getAccountName())!=null){
+            return new Result(false,"error","账号已存在");
         }
+        try {
+            userDao.loginAccount(user);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new Result(true,null,"创建成功");
     }
     public Result isTeacher(String accountName){
         return new Result(true,userDao.getUser(accountName).getRole()==1,"无");

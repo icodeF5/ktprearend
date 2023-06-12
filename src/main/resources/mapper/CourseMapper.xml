@@ -61,6 +61,18 @@
         set personNum=personNum + 1
         where code = #{code};
     </update>
+    <update id="guiDangForStu">
+      update join_course set  is_guidang = true
+      where code=#{code} and accountName = #{accountName}
+    </update>
+    <update id="guiDangForTea">
+        update creat_course set is_guidang = true
+        where code=#{code} and accountName=#{accountName}
+    </update>
+    <update id="guiDangForAll">
+        update join_course set is_guidang = true
+        where code=#{code}
+    </update>
     <select id="noGuiDangForJoin" resultType="java.lang.Boolean">
         select isTop
         from join_course where code=#{code};

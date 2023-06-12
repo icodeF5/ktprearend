@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,7 +41,6 @@ public class HomeWorkService {
         Float grade;
     }
 
-    private final String PATH = "D:\\study\\homework\\课堂派\\ktp\\后端-SpringBoot\\ktp\\src\\main\\resources\\templates";
 
     public Result publishWork(HomeWork homeWork) {
         String uuid = Generate.GenerateHomeWorkId();
@@ -58,19 +59,22 @@ public class HomeWorkService {
         return new Result(true, allWork, "无");
     }
 
+    @Autowired
+    private ResourceLoader resourceLoader;
+
     public Result uploadWork(MultipartFile file, String accountName, String id) {
         // 获取文件名
         String fileName = file.getOriginalFilename();
-        // 获取文件后缀
-        String suffix = fileName.substring(fileName.lastIndexOf("."));
         // 生成新的文件名
-        String newFileName = UUID.randomUUID().toString() + suffix;
-        // 创建文件对象
-        File dest = new File(PATH + "\\" + newFileName);
-        homeWorkDao.uploadWork(PATH + newFileName, accountName, id);
+        String newFileName = UUID.randomUUID().toString() + "."+fileName;
+        // 创建资源对象
+        Resource resource = resourceLoader.getResource("classpath:templates/" + newFileName);
+
+        homeWorkDao.uploadWork("classpath:templates/"+newFileName, accountName, id);
+
         // 将 MultipartFile 转换为 File
         try {
-            file.transferTo(dest);
+            file.transferTo(resource.getFile());
             return new Result(true, null, "上传成功");
         } catch (IOException e) {
             return new Result(false, null, "错误!");

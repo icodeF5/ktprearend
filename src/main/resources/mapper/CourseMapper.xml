@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.ktp.dao.CourseDao">
+    <insert id="addWorkRelation">
+        insert into student_work (accountName, id, code)
+        values (#{accountName}, #{id}, #{code});
+    </insert>
+    <insert id="createClass">
+        insert into course
+        values ( #{className}, #{name}, #{startTime}, #{endTime}
+               , #{ownerId}, #{code}, #{personNum}, #{isMix}, #{ownerName},#{season});
+        insert into creat_course
+        values (#{ownerId}, #{code}, #{isTop}, false);
+    </insert>
+
+    <update id="setTop">
+        update join_course
+        set isTop=1
+        where accountName = #{accountName}
+          and code = #{code};
+        update creat_course
+        set isTop=1
+        where accountName = #{accountName}
+          and code = #{code};
+    </update>
+
+    <update id="deleteTop">
+        update join_course
+        set isTop=0
+        where accountName = #{accountName}
+          and code = #{code};
+        update creat_course
+        set isTop=0
+        where accountName = #{accountName}
+          and code = #{code};
+    </update>
+    <update id="outClass">
+        #       删除二者的联系
+        delete
+        from join_course
+        where accountName = #{accountName}
+          and code = #{code};
+#         课程加入人数减一
+        update course
+        set personNum=personNum - 1
+        where code = #{code};
+#         移除作业联系
+        delete
+        from student_work
+        where accountName = #{accountName}
+          and code = #{code};
+    </update>
+    <update id="joinClass">
+        #       添加二者关系
+        insert into join_course (accountName, code)
+        values (#{accountName}, #{code});
+#       该课程人数加一
+        update course
+        set personNum=personNum + 1
+        where code = #{code};
+    </update>
+    <select id="noGuiDangForJoin" resultType="java.lang.Boolean">
+        select isTop
+        from join_course where code=#{code};
+
+        update join_course set is_guidang = false
+        where code = #{code};
+    </select>
+    <select id="noGuiDangForCreate" resultType="java.lang.Boolean">
+        select isTop
+        from creat_course where code=#{code};
+
+        update creat_course set is_guidang = false
+        where code = #{code};
+    </select>
+
+    <select id="getAllCode" resultType="java.lang.String">
+        select code
+        from course;
+    </select>
+    <select id="getAllStudent" resultType="java.lang.String">
+        select accountName
+        from join_course
+        where code = #{code};
+    </select>
+
+    <select id="getAllHomeWork" resultType="java.lang.String">
+        select id
+        from student_work
+        where code = #{code};
+    </select>
+    <select id="getByCode" resultType="edu.ktp.entity.Course">
+        select *
+        from course
+        where code = #{code};
+    </select>
+
+</mapper>

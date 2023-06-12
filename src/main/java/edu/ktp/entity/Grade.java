@@ -1,0 +1,16 @@
+package edu.ktp.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Grade {
+
+    private User user;
+
+    private Annex annex;
+
+}

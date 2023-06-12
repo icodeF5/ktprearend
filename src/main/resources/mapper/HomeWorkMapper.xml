@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.ktp.dao.HomeWorkDao">
+
+    <insert id="publishWork">
+        insert into homework values (#{homeWork.id},
+                                     #{homeWork.code},
+                                     #{homeWork.des},
+                                     #{homeWork.title},
+                                     #{homeWork.allScore},
+                                     #{homeWork.startTime},
+                                     #{homeWork.endTime});
+    </insert>
+
+    <insert id="insertRelation">
+        insert into student_work(accountName, id,code) values (#{accountName},#{workId},#{code})
+    </insert>
+
+    <update id="uploadWork">
+        update student_work set work=#{work} where accountName=#{accountName} and id=#{id}
+    </update>
+    <update id="setGrades">
+        <foreach collection="stus" item="item">
+            update student_work sw set sw.score=#{item.annex.score} where sw.accountName=#{item.annex.accountName} and sw.id=#{workId}
+        </foreach>
+    </update>
+
+    <select id="getAllWork" resultType="edu.ktp.entity.HomeWork">
+        select *
+        from homework where code=#{code};
+    </select>
+
+    <select id="getNotHand" resultType="java.lang.Integer">
+        select COUNT(*)
+        from student_work where work is null and id=#{id};
+    </select>
+    <select id="getNotApproved" resultType="java.lang.Integer">
+        select COUNT(*)
+        from student_work where work is not null  and id=#{id};
+    </select>
+    <select id="getApproved" resultType="java.lang.Integer">
+        select COUNT(*)
+        from student_work where score != '未批' and id=#{id};
+    </select>
+
+    <select id="getIsSubmit" resultType="java.lang.String">
+        select work
+        from student_work where accountName=#{accountName} and id=#{id};
+    </select>
+    <select id="getAllStudent" resultType="edu.ktp.entity.Grade">
+        select u.accountName as 'user.accountName',u.school as 'user.school',u.name as 'user.name',u.role as 'user.role',
+               sw.accountName as 'annex.accountName',sw.score as 'annex.score', sw.work as 'annex.work'
+        from student_work sw
+        left join user u on sw.accountName = u.accountName
+        where id=#{id};
+    </select>
+    <select id="getById" resultType="edu.ktp.entity.HomeWork">
+        select *
+        from homework where id=#{id};
+    </select>
+
+
+</mapper>

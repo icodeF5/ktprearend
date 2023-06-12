@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.ktp.dao.UserDao">
+    <insert id="loginAccount">
+        insert into user
+        values (#{accountName},
+                #{password},
+                #{name},
+                #{role},
+                #{school})
+    </insert>
+
+    <!--    获取用户加入的课程-->
+    <select id="getJoinCourse" resultType="edu.ktp.entity.Course">
+        select *
+        from course
+        where code in (select code from join_course  where accountName = #{accountName} and is_guidang=#{isGuiDang})
+        order by startTime, endTime desc;
+    </select>
+
+    <!--    获取用户创建的课程-->
+    <select id="getCreateCourse" resultType="edu.ktp.entity.Course">
+        select *
+        from course c
+         join creat_course cc on c.code=cc.code and cc.is_guidang=#{isGuiDang}
+        where ownerId = #{ownerId};
+    </select>
+
+    <select id="getUser" resultType="edu.ktp.entity.User">
+        select *
+        from user
+        where accountName = #{accountName};
+    </select>
+
+    <select id="getTopClass" resultType="edu.ktp.entity.Course">
+        select *
+        from course
+        where code in (select code
+                       from join_course
+                       where accountName = #{accountName}
+                         and isTop and !is_guidang)
+           or code in (select code
+                       from creat_course
+                       where accountName = #{accountName}
+                         and isTop and !is_guidang);
+    </select>
+
+</mapper>

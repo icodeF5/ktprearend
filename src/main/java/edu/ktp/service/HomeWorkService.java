@@ -73,6 +73,11 @@ public class HomeWorkService {
         }
     }
 
+    public Result getStuHomeWork(String accountName){
+        File realFile = new File(homeWorkDao.getStuHomework(accountName));
+        return new Result(true,realFile.getAbsolutePath(),"文件路径");
+    }
+
     public Result getStatus(String id) {
         int[] ans = {
                 homeWorkDao.getApproved(id),

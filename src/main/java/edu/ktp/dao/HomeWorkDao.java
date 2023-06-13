@@ -26,6 +26,8 @@ public interface HomeWorkDao {
      */
     void insertRelation(String accountName,  String workId,String code);
 
+    String getStuHomework(String accountName);
+
     /**
      *
      * @param code 课堂码

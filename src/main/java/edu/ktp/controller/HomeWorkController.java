@@ -5,6 +5,7 @@ import edu.ktp.entity.Grade;
 import edu.ktp.entity.HomeWork;
 import edu.ktp.service.HomeWorkService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,6 +30,11 @@ public class HomeWorkController {
     @PostMapping("/upload")
     public Result uploadWork(@RequestParam("file")MultipartFile file,@RequestParam String accountName,@RequestParam String id){
         return homeWorkService.uploadWork(file,accountName,id);
+    }
+
+    @GetMapping("/getStuHomework")
+    public Result getStuHomework(@RequestParam String accountName){
+        return homeWorkService.getStuHomeWork(accountName);
     }
 
     @GetMapping("/status")

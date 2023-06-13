@@ -60,6 +60,10 @@
         select *
         from homework where id=#{id};
     </select>
+    <select id="getStuHomework" resultType="java.lang.String">
+        select work
+        from student_work where accountName=#{accountName};
+    </select>
 
 
 </mapper>

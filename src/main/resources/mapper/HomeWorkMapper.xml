@@ -26,6 +26,10 @@
             update student_work sw set sw.score=#{item.annex.score} where sw.accountName=#{item.annex.accountName} and sw.id=#{workId}
         </foreach>
     </update>
+    <insert id="cuijiao">
+        insert into message (type,info,sendId,receiveId,time,jumpId,label)
+        values (#{type},#{info},#{sendId},#{receiveId},#{time},#{jumpId},#{label})
+    </insert>
 
     <select id="getAllWork" resultType="edu.ktp.entity.HomeWork">
         select *
@@ -38,7 +42,7 @@
     </select>
     <select id="getNotApproved" resultType="java.lang.Integer">
         select COUNT(*)
-        from student_work where work is not null  and id=#{id};
+        from student_work where work is not null and score='未批'  and id=#{id};
     </select>
     <select id="getApproved" resultType="java.lang.Integer">
         select COUNT(*)

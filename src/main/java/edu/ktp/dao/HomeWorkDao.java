@@ -3,6 +3,7 @@ package edu.ktp.dao;
 import edu.ktp.entity.Annex;
 import edu.ktp.entity.Grade;
 import edu.ktp.entity.HomeWork;
+import edu.ktp.entity.Message;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -82,5 +83,7 @@ public interface HomeWorkDao {
 
 
     void setGrades(List<Grade> stus,String workId);
+
+    void cuijiao(Message message);
 
 }

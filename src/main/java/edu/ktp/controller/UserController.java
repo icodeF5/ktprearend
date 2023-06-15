@@ -56,4 +56,15 @@ public class UserController {
         return userService.getTopClass(accountName);
     }
 
+    @PostMapping("/openClass")
+    public Result openClass(@RequestParam String accountName,@RequestParam String type,@RequestBody Course course){
+        userService.openClass(accountName,type,course);
+        return new Result(true,null,"成功");
+    }
+
+    @PostMapping("/closeClass")
+    public Result closeClass(@RequestParam String accountName,@RequestParam String type,@RequestBody Course course){
+        userService.closeClass(accountName,type,course);
+        return new Result(true,null,"成功");
+    }
 }

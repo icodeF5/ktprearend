@@ -6,6 +6,7 @@ import edu.ktp.dao.HomeWorkDao;
 import edu.ktp.dao.UserDao;
 import edu.ktp.entity.*;
 import edu.ktp.utils.Generate;
+import edu.ktp.utils.TimeUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,7 +34,6 @@ public class HomeWorkService {
     @Autowired
     private UserDao userDao;
 
-//    private String path = "D:\\study\\homework\\课堂派\\ktp\\后端-SpringBoot\\ktp\\src\\main\\resources\\static\\";
     private String path = "src\\main\\resources\\static\\";
 
 
@@ -103,5 +103,10 @@ public class HomeWorkService {
     public Result setGrades(List<Grade> stus,String workId){
         homeWorkDao.setGrades(stus,workId);
         return new Result(true,"哈哈哈","成功！");
+    }
+
+    public void cuijiao(Message message){
+        message.setTime(TimeUtil.getLocalTime());
+        homeWorkDao.cuijiao(message);
     }
 }

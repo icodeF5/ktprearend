@@ -3,6 +3,7 @@ package edu.ktp.dao;
 import edu.ktp.entity.Course;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
@@ -13,7 +14,7 @@ public interface CourseDao {
 
     void outClass(String accountName,String code);
 
-    void joinClass(String accountName,String code);
+    void joinClass(String accountName, String code, LocalDateTime time);
 
     void addWorkRelation(String accountName,String code,String id);
 
@@ -21,7 +22,7 @@ public interface CourseDao {
 
     List<String > getAllCode();
 
-    void createClass(Course course);
+    void createClass(Course course,LocalDateTime time);
 
     Boolean noGuiDangForJoin(String code,String accountName);
 

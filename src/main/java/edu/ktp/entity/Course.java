@@ -30,5 +30,7 @@ public class Course {
     private Boolean isTop;
     //学期
     private Integer season;
+    //是否为打开状态
+    private Boolean isOpen;
 
 }

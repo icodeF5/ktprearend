@@ -9,10 +9,10 @@
     </insert>
     <insert id="createClass">
         insert into course
-        values ( #{className}, #{name}, #{startTime}, #{endTime}
-               , #{ownerId}, #{code}, #{personNum}, #{isMix}, #{ownerName},#{season});
-        insert into creat_course
-        values (#{ownerId}, #{code}, #{isTop}, false);
+        values ( #{course.className}, #{course.name}, #{course.startTime}, #{course.endTime}
+               , #{course.ownerId}, #{course.code}, #{course.personNum}, #{course.isMix}, #{course.ownerName},#{course.season});
+        insert into creat_course (accountName,code,isTop,time)
+        values (#{course.ownerId}, #{course.code}, #{course.isTop},#{time});
     </insert>
 
     <update id="setTop">
@@ -54,8 +54,8 @@
     </update>
     <update id="joinClass">
         #       添加二者关系
-        insert into join_course (accountName, code)
-        values (#{accountName}, #{code});
+        insert into join_course (accountName, code,time)
+        values (#{accountName}, #{code},#{time});
 #       该课程人数加一
         update course
         set personNum=personNum + 1

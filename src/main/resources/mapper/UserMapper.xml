@@ -14,12 +14,52 @@
                 #{time},
                 #{avatar})
     </insert>
+    <update id="openClass">
+        <if test="type == 'join'">
+            update join_course
+                join course c on join_course.code = c.code
+            set isOpen = true
+            where c.ownerId = #{accountName}
+              and c.startTime = #{course.startTime}
+              and c.endTime = #{course.endTime}
+              and c.season = #{course.season}
+        </if>
+        <if test="type == 'create'">
+            update creat_course cc
+                join course c on cc.code = c.code
+            set isOpen = true
+            where c.ownerId = #{accountName}
+              and c.startTime = #{course.startTime}
+              and c.endTime = #{course.endTime}
+              and c.season = #{course.season}
+        </if>
+    </update>
+    <update id="closeClass">
+        <if test="type == 'join'">
+            update join_course
+                join course c on join_course.code = c.code
+            set isOpen = false
+            where c.ownerId = #{accountName}
+              and c.startTime = #{course.startTime}
+              and c.endTime = #{course.endTime}
+              and c.season = #{course.season}
+        </if>
+        <if test="type == 'create'">
+            update creat_course cc
+                join course c on cc.code = c.code
+            set isOpen = false
+            where c.ownerId = #{accountName}
+              and c.startTime = #{course.startTime}
+              and c.endTime = #{course.endTime}
+              and c.season = #{course.season}
+        </if>
+    </update>
 
     <!--    获取用户加入的课程-->
     <select id="getJoinCourse" resultType="edu.ktp.entity.Course">
         select *
-        from course
-        where code in (select code from join_course  where accountName = #{accountName} and is_guidang=#{isGuiDang})
+        from course c
+                 join join_course jc on c.code = jc.code and accountName = #{accountName} and is_guidang = #{isGuiDang}
         order by startTime, endTime desc;
     </select>
 
@@ -27,8 +67,9 @@
     <select id="getCreateCourse" resultType="edu.ktp.entity.Course">
         select *
         from course c
-         join creat_course cc on c.code=cc.code and cc.is_guidang=#{isGuiDang}
-        where ownerId = #{ownerId};
+                 join creat_course cc on c.code = cc.code and cc.is_guidang = #{isGuiDang}
+        where ownerId = #{ownerId}
+        order by startTime, endTime desc;
     </select>
 
     <select id="getUser" resultType="edu.ktp.entity.User">
@@ -43,11 +84,13 @@
         where code in (select code
                        from join_course
                        where accountName = #{accountName}
-                         and isTop and !is_guidang)
+                         and isTop
+                         and !is_guidang)
            or code in (select code
                        from creat_course
                        where accountName = #{accountName}
-                         and isTop and !is_guidang);
+                         and isTop
+                         and !is_guidang);
     </select>
 
 </mapper>

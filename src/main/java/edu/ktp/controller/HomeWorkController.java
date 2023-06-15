@@ -3,6 +3,7 @@ package edu.ktp.controller;
 
 import edu.ktp.entity.Grade;
 import edu.ktp.entity.HomeWork;
+import edu.ktp.entity.Message;
 import edu.ktp.service.HomeWorkService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -60,5 +61,11 @@ public class HomeWorkController {
     @PostMapping("/setGrades")
     public Result setGrades(@RequestBody List<Grade> stus,@RequestParam String workId){
         return homeWorkService.setGrades(stus,workId);
+    }
+
+    @PostMapping("/cuijiao")
+    public Result cuijiao(@RequestBody Message message){
+        homeWorkService.cuijiao(message);
+        return new Result(true,"success","催交成功！已向学生发送消息");
     }
 }

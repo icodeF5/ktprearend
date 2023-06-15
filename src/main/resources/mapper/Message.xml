@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.ktp.dao.MessageDao">
+
+    <insert id="sendMessage">
+        insert into message
+        values(null,#{type},#{info},#{send_id},#{receive_id},#{time},#{jumpId},#{label},false)
+    </insert>
+    <update id="readAllMessage">
+        update message set isRead = true
+        where receiveId=#{accountName}
+    </update>
+    <update id="readMessage">
+        update message set isRead = true
+        where id = #{messageId}
+    </update>
+    <select id="getAll" resultType="edu.ktp.entity.Message">
+        select message.*,u.name as 'sendName',c.name as 'comeName'
+        from message
+        left join user u on u.accountName=sendId
+        join homework h on h.id=jumpId
+        join course c on c.code=h.code
+        where receiveId=#{accountName}
+        order by isRead;
+    </select>
+    <select id="getNoRead" resultType="edu.ktp.entity.Message">
+        select message.*,u.name as 'sendName'
+        from message
+        left join user u on u.accountName=sendId
+        where receiveId=#{accountName} and !isRead;
+    </select>
+
+</mapper>

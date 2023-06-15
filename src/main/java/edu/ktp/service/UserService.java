@@ -97,6 +97,14 @@ public class UserService {
         return new Result(true,top,"无");
     }
 
+    public void openClass(String accountName,String type,Course course){
+        userDao.openClass(accountName,type,course);
+    }
+
+    public void closeClass(String accountName,String  type,Course course){
+        userDao.closeClass(accountName, type, course);
+    }
+
     private List<List<Course>> getGroupingCourse(List<Course> list){
         if(list.size()==0){
             return new LinkedList<>();

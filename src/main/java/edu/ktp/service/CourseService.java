@@ -5,6 +5,7 @@ import edu.ktp.dao.CourseDao;
 import edu.ktp.dao.UserDao;
 import edu.ktp.entity.Course;
 import edu.ktp.utils.Generate;
+import edu.ktp.utils.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class CourseService {
     }
 
     public Result joinClass(String accountName,String code){
-        courseDao.joinClass(accountName,code);
+        courseDao.joinClass(accountName,code, TimeUtil.getLocalTime());
         List<String> allHomeWork = courseDao.getAllHomeWork(code);
         for(String workId : allHomeWork){
             courseDao.addWorkRelation(accountName,code,workId);
@@ -53,7 +54,7 @@ public class CourseService {
         List<String > codeList = courseDao.getAllCode();
         course.setCode(Generate.GenerateCode(new HashSet<>(codeList)));
         course.setOwnerName(ownerName);
-        courseDao.createClass(course);
+        courseDao.createClass(course,TimeUtil.getLocalTime());
         return new Result(true,null,"创建成功");
     }
 

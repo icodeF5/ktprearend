@@ -39,5 +39,8 @@ public interface UserDao {
      */
     List<Course> getTopClass(String accountName);
 
+    void openClass(String accountName,String type,Course course);
+
+    void closeClass(String accountName,String type,Course course);
 
 }

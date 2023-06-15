@@ -108,5 +108,13 @@
         from course
         where code = #{code};
     </select>
+    <select id="findPerson" resultType="java.util.Map">
+        select u.*,j.time as 'joinTime'
+        from join_course j
+                 left join user u
+                           on j.accountName = u.accountName
+        where j.code = #{code}
+    </select>
+
 
 </mapper>

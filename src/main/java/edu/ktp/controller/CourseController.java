@@ -71,4 +71,9 @@ public class CourseController {
         return  courseService.guiDangForTea(code,accountName);
     }
 
+    @RequestMapping("/findPerson")
+    public Result findPerson(@RequestParam String code){
+        return courseService.findPerson(code);
+    }
+
 }

@@ -4,6 +4,7 @@ import edu.ktp.controller.Result;
 import edu.ktp.dao.CourseDao;
 import edu.ktp.dao.UserDao;
 import edu.ktp.entity.Course;
+import edu.ktp.entity.User;
 import edu.ktp.utils.Generate;
 import edu.ktp.utils.TimeUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -92,5 +94,11 @@ public class CourseService {
         courseDao.guiDangForTea(code,accountName);
         return  new Result(true,"success","归档成功");
     }
+
+    public Result findPerson(String code){
+        List<Map<String ,String >> users = courseDao.findPerson(code);
+        return new Result(true,users,"查找成功");
+    }
+
 
 }

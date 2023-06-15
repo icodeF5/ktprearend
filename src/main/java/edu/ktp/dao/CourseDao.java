@@ -1,10 +1,13 @@
 package edu.ktp.dao;
 
 import edu.ktp.entity.Course;
+import edu.ktp.entity.User;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface CourseDao {
@@ -31,6 +34,9 @@ public interface CourseDao {
     List<String> getAllStudent(String code);
 
     Course getByCode(String code);
+
+    List<Map<String ,String>> findPerson(String code);
+
 
     void guiDangForStu(String code,String accountName);
 

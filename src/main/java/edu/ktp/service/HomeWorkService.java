@@ -37,6 +37,10 @@ public class HomeWorkService {
     private String path = "src\\main\\resources\\static\\";
 
 
+    public String getWorkPath(String workId,String accountName){
+        return homeWorkDao.getWorkPath(workId,accountName);
+    }
+
     public Result publishWork(HomeWork homeWork,String accountName) {
         String uuid = Generate.GenerateHomeWorkId();
         homeWork.setId(uuid);

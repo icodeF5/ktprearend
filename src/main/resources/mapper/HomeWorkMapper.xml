@@ -76,6 +76,11 @@
         select work
         from student_work where accountName=#{accountName};
     </select>
+    <select id="getWorkPath" resultType="java.lang.String">
+        select work
+        from student_work
+        where id=#{workId} and accountName=#{accountName};
+    </select>
 
 
 </mapper>

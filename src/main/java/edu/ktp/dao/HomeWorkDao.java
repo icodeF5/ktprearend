@@ -87,4 +87,6 @@ public interface HomeWorkDao {
     void cuijiao(Message message);
 
     void delete(String id);
+
+    String getWorkPath(String workId,String accountName);
 }

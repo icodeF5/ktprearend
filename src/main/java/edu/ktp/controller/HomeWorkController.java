@@ -5,19 +5,43 @@ import edu.ktp.entity.Grade;
 import edu.ktp.entity.HomeWork;
 import edu.ktp.entity.Message;
 import edu.ktp.service.HomeWorkService;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 @RestController
 @RequestMapping("/homeWork")
 public class HomeWorkController {
 
+
     @Autowired
     private HomeWorkService homeWorkService;
+
+    @GetMapping("/check")
+    public void download(@RequestParam String workId,@RequestParam String accountName, HttpServletResponse response) throws IOException {
+        String path = homeWorkService.getWorkPath(workId,accountName);
+        String[] split = path.split("\\.");
+        // 设置响应类型
+        response.setContentType("application/octet-stream");
+        // 设置Content-Disposition,以attachment显示文件名为file.txt
+        response.setHeader("Content-Disposition", "inline; filename=file."+split[split.length-1]);
+        // 获取输出流
+        ServletOutputStream outputStream = response.getOutputStream();
+        // 获取输入流并写入输出流
+        InputStream inputStream = new FileInputStream(path);
+        IOUtils.copy(inputStream, outputStream);
+    }
 
     @PostMapping("/publishWork")
     public Result publishWork(@RequestBody HomeWork homeWork,@RequestParam String accountName){

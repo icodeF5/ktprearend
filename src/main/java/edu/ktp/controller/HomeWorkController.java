@@ -32,10 +32,40 @@ public class HomeWorkController {
     public void download(@RequestParam String workId,@RequestParam String accountName, HttpServletResponse response) throws IOException {
         String path = homeWorkService.getWorkPath(workId,accountName);
         String[] split = path.split("\\.");
-        // 设置响应类型
-        response.setContentType("application/octet-stream");
-        // 设置Content-Disposition,以attachment显示文件名为file.txt
-        response.setHeader("Content-Disposition", "inline; filename=file."+split[split.length-1]);
+        String extension = split[split.length-1];
+        // 根据扩展名设置响应类型，这里只列举了一些常见的类型，你可以根据需要添加更多
+        switch (extension) {
+            case "txt":
+                response.setContentType("text/plain");
+                break;
+            case "png":
+                response.setContentType("image/png");
+                break;
+            case "jpg":
+            case "jpeg":
+                response.setContentType("image/jpeg");
+                break;
+            case "gif":
+                response.setContentType("image/gif");
+                break;
+            case "pdf":
+                response.setContentType("application/pdf");
+                break;
+            case "doc":
+                response.setContentType("application/msword");
+                break;
+            case "docx":
+                response.setContentType("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+                break;
+            case "zip":
+                response.setContentType("application/zip");
+                break;
+            default:
+                // 如果无法识别文件类型，使用通用的二进制流类型
+                response.setContentType("application/octet-stream");
+        }
+        // 设置Content-Disposition,以inline显示文件名
+        response.setHeader("Content-Disposition", "inline; filename=" + extension);
         // 获取输出流
         ServletOutputStream outputStream = response.getOutputStream();
         // 获取输入流并写入输出流

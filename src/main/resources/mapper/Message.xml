@@ -23,7 +23,7 @@
         join homework h on h.id=jumpId
         join course c on c.code=h.code
         where receiveId=#{accountName}
-        order by isRead,time;
+        order by isRead,time desc;
     </select>
     <select id="getNoRead" resultType="edu.ktp.entity.Message">
         select message.*,u.name as 'sendName'

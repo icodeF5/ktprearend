@@ -20,9 +20,16 @@ public class HomeWorkController {
     private HomeWorkService homeWorkService;
 
     @PostMapping("/publishWork")
-    public Result publishWork(@RequestBody HomeWork homeWork){
-        return homeWorkService.publishWork(homeWork);
+    public Result publishWork(@RequestBody HomeWork homeWork,@RequestParam String accountName){
+        return homeWorkService.publishWork(homeWork,accountName);
     }
+    @GetMapping("/delete")
+    public Result delete(@RequestParam String id){
+        homeWorkService.delete(id);
+        return  new Result(true,"success","删除成功");
+    }
+
+
     @GetMapping("/getAllWork")
     public Result getAllWork(@RequestParam String code){
         return homeWorkService.getAllWork(code);

@@ -35,6 +35,4 @@ public class MessageController {
         return  new Result(true,messageService.getNoRead(accountName),"所有未读信息");
     }
 
-
-
 }

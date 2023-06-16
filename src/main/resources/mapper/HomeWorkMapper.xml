@@ -26,6 +26,14 @@
             update student_work sw set sw.score=#{item.annex.score} where sw.accountName=#{item.annex.accountName} and sw.id=#{workId}
         </foreach>
     </update>
+    <delete id="delete">
+        delete
+        from student_work
+        where id = #{id};
+        delete
+        from homework
+        where id = #{id};
+    </delete>
     <insert id="cuijiao">
         insert into message (type,info,sendId,receiveId,time,jumpId,label)
         values (#{type},#{info},#{sendId},#{receiveId},#{time},#{jumpId},#{label})

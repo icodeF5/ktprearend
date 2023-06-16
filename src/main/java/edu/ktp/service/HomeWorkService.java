@@ -32,21 +32,34 @@ public class HomeWorkService {
     private CourseDao courseDao;
 
     @Autowired
-    private UserDao userDao;
+    private MessageService messageService;
 
     private String path = "src\\main\\resources\\static\\";
 
 
-    public Result publishWork(HomeWork homeWork) {
+    public Result publishWork(HomeWork homeWork,String accountName) {
         String uuid = Generate.GenerateHomeWorkId();
         homeWork.setId(uuid);
         //获取加入课程的所有学生
         List<String> allStudent = courseDao.getAllStudent(homeWork.getCode());
         homeWorkDao.publishWork(homeWork, homeWork.getCode());
         for (String s : allStudent) {
+            Message message = new Message();
+            message.setTime(TimeUtil.getLocalTime());
+            message.setInfo("发布了"+homeWork.getTitle()+"作业");
+            message.setSendId(accountName);
+            message.setReceiveId(s);
+            message.setJumpId(uuid);
+            message.setType("教学活动");
+            message.setLabel("作业");
+            messageService.sendMessage(message);
             homeWorkDao.insertRelation(s, uuid,homeWork.getCode());
         }
         return new Result(true, null, "无");
+    }
+
+    public void delete(String id){
+        homeWorkDao.delete(id);
     }
 
     public Result getAllWork(String code) {
@@ -55,6 +68,7 @@ public class HomeWorkService {
     }
 
     public Result uploadWork(MultipartFile file, String accountName, String id) {
+        System.out.println("执行上传作业");
         // 获取文件名
         String fileName = file.getOriginalFilename();
         // 生成新的文件名

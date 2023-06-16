@@ -86,4 +86,5 @@ public interface HomeWorkDao {
 
     void cuijiao(Message message);
 
+    void delete(String id);
 }

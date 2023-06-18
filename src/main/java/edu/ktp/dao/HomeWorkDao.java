@@ -5,8 +5,6 @@ import edu.ktp.entity.Grade;
 import edu.ktp.entity.HomeWork;
 import edu.ktp.entity.Message;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -44,6 +42,8 @@ public interface HomeWorkDao {
      */
     void uploadWork(String work,String accountName,String id);
 
+    void updateWork(String work,String accountName,String id);
+
     /**
      *
      * @param id 作业id
@@ -71,8 +71,7 @@ public interface HomeWorkDao {
      * @param id 作业id
      * @return 作业路径
      */
-    String getIsSubmit(String accountName,String id);
-
+    Grade getIsSubmit(String accountName, String id);
     /**
      *
      * @param id 作业id
@@ -80,7 +79,6 @@ public interface HomeWorkDao {
      */
     List<Grade> getAllStudent(String id);
     HomeWork getById(String  id);
-
 
     void setGrades(List<Grade> stus,String workId);
 

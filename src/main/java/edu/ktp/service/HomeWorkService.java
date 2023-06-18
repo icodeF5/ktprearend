@@ -10,6 +10,7 @@ import edu.ktp.utils.TimeUtil;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class HomeWorkService {
 
     @Autowired
@@ -48,14 +50,9 @@ public class HomeWorkService {
         List<String> allStudent = courseDao.getAllStudent(homeWork.getCode());
         homeWorkDao.publishWork(homeWork, homeWork.getCode());
         for (String s : allStudent) {
-            Message message = new Message();
-            message.setTime(TimeUtil.getLocalTime());
-            message.setInfo("发布了"+homeWork.getTitle()+"作业");
-            message.setSendId(accountName);
-            message.setReceiveId(s);
-            message.setJumpId(uuid);
-            message.setType("教学活动");
-            message.setLabel("作业");
+            Message message = new Message("教学活动",
+                    "发布了"+homeWork.getTitle()+"作业",
+                    accountName,s,uuid,"作业");
             messageService.sendMessage(message);
             homeWorkDao.insertRelation(s, uuid,homeWork.getCode());
         }
@@ -71,7 +68,7 @@ public class HomeWorkService {
         return new Result(true, allWork, "无");
     }
 
-    public Result uploadWork(MultipartFile file, String accountName, String id) {
+    public Result uploadWork(MultipartFile file, String accountName, String id,Boolean isUpdate) {
         System.out.println("执行上传作业");
         // 获取文件名
         String fileName = file.getOriginalFilename();
@@ -80,10 +77,18 @@ public class HomeWorkService {
         // 创建资源对象
         File f = new File(path+newFileName);
 
-        homeWorkDao.uploadWork(path+newFileName, accountName, id);
+        if(!isUpdate){
+            homeWorkDao.uploadWork(path+newFileName, accountName, id);
+        }else{
+            Grade oldG = homeWorkDao.getIsSubmit(accountName,id);
+            boolean delete = new File(oldG.getAnnex().getWork()).delete();
+            log.info("是否删除成功==="+delete);
+            homeWorkDao.updateWork(path+newFileName,accountName,id);
+        }
         // 将 MultipartFile 转换为 File
         try {
             File newFile =  new File(f.getAbsolutePath());
+
             file.transferTo(newFile);
             return new Result(true, null, "上传成功");
         } catch (IOException e) {
@@ -105,8 +110,8 @@ public class HomeWorkService {
     }
 
     public Result getIsSubmit(String accountName,String id){
-        String path = homeWorkDao.getIsSubmit(accountName,id);
-        return new Result(true,path==null,"无");
+        Grade work = homeWorkDao.getIsSubmit(accountName,id);
+        return new Result(true,work,"无");
     }
 
     public Result getAllStudent(String id){
@@ -126,5 +131,15 @@ public class HomeWorkService {
     public void cuijiao(Message message){
         message.setTime(TimeUtil.getLocalTime());
         homeWorkDao.cuijiao(message);
+    }
+
+    public void cuijiaoAll(List<Grade> stus,String workId,String accountName){
+        for(Grade g : stus){
+            Message message = new Message("教学活动",
+                    "快交作业！！！",
+                    accountName,g.getUser().getAccountName(),workId,"催交");
+            log.info("message=="+message);
+            homeWorkDao.cuijiao(message);
+        }
     }
 }

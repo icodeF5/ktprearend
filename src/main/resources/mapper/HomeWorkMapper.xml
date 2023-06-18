@@ -26,6 +26,10 @@
             update student_work sw set sw.score=#{item.annex.score} where sw.accountName=#{item.annex.accountName} and sw.id=#{workId}
         </foreach>
     </update>
+    <update id="updateWork">
+        update student_work set work = #{work}
+        where accountName=#{accountName} and id=#{id}
+    </update>
     <delete id="delete">
         delete
         from student_work
@@ -57,12 +61,12 @@
         from student_work where score != '未批' and id=#{id};
     </select>
 
-    <select id="getIsSubmit" resultType="java.lang.String">
-        select work
+    <select id="getIsSubmit" resultType="edu.ktp.entity.Grade">
+        select accountName as 'user.accountName',score as 'annex.score',work as 'annex.work'
         from student_work where accountName=#{accountName} and id=#{id};
     </select>
     <select id="getAllStudent" resultType="edu.ktp.entity.Grade">
-        select u.accountName as 'user.accountName',u.school as 'user.school',u.name as 'user.name',u.role as 'user.role',
+        select u.accountName as 'user.accountName',u.school as 'user.school',u.name as 'user.name',u.role as 'user.role',u.userId as 'user.userId',
                sw.accountName as 'annex.accountName',sw.score as 'annex.score', sw.work as 'annex.work'
         from student_work sw
         left join user u on sw.accountName = u.accountName

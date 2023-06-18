@@ -5,6 +5,7 @@ import edu.ktp.entity.Grade;
 import edu.ktp.entity.HomeWork;
 import edu.ktp.entity.Message;
 import edu.ktp.service.HomeWorkService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -20,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/homeWork")
 public class HomeWorkController {
@@ -90,8 +92,8 @@ public class HomeWorkController {
     }
 
     @PostMapping("/upload")
-    public Result uploadWork(@RequestParam("file")MultipartFile file,@RequestParam String accountName,@RequestParam String id){
-        return homeWorkService.uploadWork(file,accountName,id);
+    public Result uploadWork(@RequestParam("file")MultipartFile file,@RequestParam String accountName,@RequestParam String id,@RequestParam Boolean isUpdate){
+        return homeWorkService.uploadWork(file,accountName,id,isUpdate);
     }
 
     @GetMapping("/getStuHomework")
@@ -128,5 +130,12 @@ public class HomeWorkController {
     public Result cuijiao(@RequestBody Message message){
         homeWorkService.cuijiao(message);
         return new Result(true,"success","催交成功！已向学生发送消息");
+    }
+
+    @PostMapping("/cuijiaoAll")
+    public Result cuijiaoAll(@RequestBody List<Grade> stus,@RequestParam String workId,@RequestParam String accountName){
+        log.info(stus+"");
+        homeWorkService.cuijiaoAll(stus,workId,accountName);
+        return  new Result(true,null,"成功");
     }
 }

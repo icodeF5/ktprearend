@@ -57,19 +57,37 @@
 
     <!--    获取用户加入的课程-->
     <select id="getJoinCourse" resultType="edu.ktp.entity.Course">
-        select *
-        from course c
-                 join join_course jc on c.code = jc.code and accountName = #{accountName} and is_guidang = #{isGuiDang}
-        order by startTime, endTime desc;
+        <if test="isGuiDang!=null">
+            select *
+            from course c
+                     join join_course jc
+                          on c.code = jc.code and accountName = #{accountName} and is_guidang = #{isGuiDang}
+            order by startTime, endTime desc;
+        </if>
+        <if test="isGuiDang==null">
+            select *
+            from course c
+                     join join_course jc on c.code = jc.code and accountName = #{accountName}
+            order by startTime, endTime desc;
+        </if>
     </select>
 
     <!--    获取用户创建的课程-->
     <select id="getCreateCourse" resultType="edu.ktp.entity.Course">
-        select *
-        from course c
-                 join creat_course cc on c.code = cc.code and cc.is_guidang = #{isGuiDang}
-        where ownerId = #{ownerId}
-        order by startTime, endTime desc;
+        <if test="isGuiDang!=null">
+            select *
+            from course c
+                     join creat_course cc on c.code = cc.code and cc.is_guidang = #{isGuiDang}
+            where ownerId = #{ownerId}
+            order by startTime, endTime desc;
+        </if>
+        <if test="isGuiDang==null">
+            select *
+            from course c
+                     join creat_course cc on c.code = cc.code
+            where ownerId = #{ownerId}
+            order by startTime, endTime desc;
+        </if>
     </select>
 
     <select id="getUser" resultType="edu.ktp.entity.User">

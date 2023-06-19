@@ -33,22 +33,22 @@ public class UserController {
     }
 
     @GetMapping("/getGroupJoinClass")
-    public Result getGroupJoinClass(@RequestParam String accountName,@RequestParam boolean isGuiDang){
+    public Result getGroupJoinClass(@RequestParam String accountName,@RequestParam Boolean isGuiDang){
         return userService.getGroupJoinClass(accountName,isGuiDang);
     }
     @GetMapping("/getGroupCreateClass")
-    public Result getGroupCreatClass(@RequestParam String accountName,@RequestParam boolean isGuiDang){
+    public Result getGroupCreatClass(@RequestParam String accountName,@RequestParam Boolean isGuiDang){
         return userService.getGroupCreateClass(accountName,isGuiDang);
     }
 
     @GetMapping("/getJoinClass")
-    public Result getJoinClass(@RequestParam String accountName,@RequestParam boolean isGuiDang){
-        return userService.getJoinClass(accountName,isGuiDang);
+    public Result getJoinClass(@RequestParam String accountName){
+        return userService.getJoinClass(accountName,null);
     }
 
     @GetMapping("/getCreatClass")
-    public Result getCreatClass(@RequestParam String accountName,@RequestParam boolean isGuiDang){
-        return userService.getCreateClass(accountName,isGuiDang);
+    public Result getCreatClass(@RequestParam String accountName){
+        return userService.getCreateClass(accountName,null);
     }
 
     @GetMapping("/getTopClass")

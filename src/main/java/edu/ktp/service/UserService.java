@@ -4,6 +4,7 @@ import edu.ktp.controller.Result;
 import edu.ktp.dao.UserDao;
 import edu.ktp.entity.Course;
 import edu.ktp.entity.User;
+import edu.ktp.utils.JwtUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,8 @@ public class UserService {
         if(!truePassword.equals(password)||truePassword.equals("错误")){
             return new Result(false,null,"账号或密码错误");
         }else {
-            return new Result(true,null,"登录成功");
+            String jwtToken = JwtUtil.createJwtToken(accountName, password);
+            return new Result(true,jwtToken,"登录成功");
         }
     }
     public Result loginAccount(User user) {
@@ -54,7 +56,6 @@ public class UserService {
      */
     public Result getGroupJoinClass(String accountName,Boolean isGuiDang){
         List<Course> joinCourse = userDao.getJoinCourse(accountName,isGuiDang);
-        log.info("getJoinClass返回值="+joinCourse);
         return new Result(true,getGroupingCourse(joinCourse),"无");
     }
 
@@ -64,7 +65,6 @@ public class UserService {
      * @return object为该用户分组后的创建的课程
      */
     public Result getGroupCreateClass(String accountName,Boolean isGuiDang){
-        log.info(isGuiDang.toString());
         List<Course> createCourse = userDao.getCreateCourse(accountName,isGuiDang);
         return new Result(true,getGroupingCourse(createCourse),"无");
     }

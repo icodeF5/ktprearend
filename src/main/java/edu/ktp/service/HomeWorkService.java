@@ -124,6 +124,7 @@ public class HomeWorkService {
     }
 
     public Result setGrades(List<Grade> stus,String workId){
+        log.info(stus.toString());
         homeWorkDao.setGrades(stus,workId);
         return new Result(true,"哈哈哈","成功！");
     }

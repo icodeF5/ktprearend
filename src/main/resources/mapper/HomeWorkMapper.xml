@@ -23,7 +23,7 @@
     </update>
     <update id="setGrades">
         <foreach collection="stus" item="item">
-            update student_work sw set sw.score=#{item.annex.score} where sw.accountName=#{item.annex.accountName} and sw.id=#{workId}
+            update student_work sw set sw.score=#{item.annex.score} where sw.accountName=#{item.annex.accountName} and sw.id=#{workId};
         </foreach>
     </update>
     <update id="updateWork">

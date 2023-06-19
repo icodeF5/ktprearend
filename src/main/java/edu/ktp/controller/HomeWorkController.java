@@ -35,7 +35,6 @@ public class HomeWorkController {
         String path = homeWorkService.getWorkPath(workId,accountName);
         String[] split = path.split("\\.");
         String extension = split[split.length-1];
-        // 根据扩展名设置响应类型，这里只列举了一些常见的类型，你可以根据需要添加更多
         switch (extension) {
             case "txt":
                 response.setContentType("text/plain");

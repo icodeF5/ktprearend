@@ -1,6 +1,7 @@
 package edu.ktp.controller;
 
 import edu.ktp.entity.Course;
+import edu.ktp.entity.User;
 import edu.ktp.service.CourseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,6 +70,16 @@ public class CourseController {
     @GetMapping("/guiDangForTea")
     public Result guiDangForTea(@RequestParam String code,@RequestParam String accountName){
         return  courseService.guiDangForTea(code,accountName);
+    }
+
+    @PostMapping("/deleteClass")
+    public Result deleteClass(@RequestBody User user, @RequestParam String code){
+        Boolean isDel = courseService.deleteClass(user,code);
+        if(isDel){
+            return new Result(true,"success","删除成功！");
+        }else{
+            return new Result(false,"error","密码错误！");
+        }
     }
 
     @RequestMapping("/findPerson")

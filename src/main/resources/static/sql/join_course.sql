@@ -2,10 +2,12 @@
 -- auto-generated definition
 create table join_course
 (
-    accountName varchar(255)         null comment '学生id',
-    code        varchar(6)           null comment '班级码',
-    isTop       tinyint(1) default 0 null comment '是否置顶',
-    is_guidang  tinyint(1) default 0 null comment '是否归档',
+    accountName varchar(255)         null,
+    code        varchar(6)           null,
+    isTop       tinyint(1) default 0 null,
+    is_guidang  tinyint(1) default 0 null,
+    time        datetime             null,
+    isOpen      tinyint(1) default 1 null,
     constraint join_course_ibfk_1
         foreign key (accountName) references user (accountName),
     constraint join_course_ibfk_2
@@ -18,6 +20,8 @@ create index account_name
 create index code
     on join_course (code);
 
-INSERT INTO ktp_db.join_course (accountName, code, isTop, is_guidang) VALUES ('2790895170@qq.com', 'WADUSD', 1, 0);
-INSERT INTO ktp_db.join_course (accountName, code, isTop, is_guidang) VALUES ('13267276903', 'WADUSD', 0, 0);
-INSERT INTO ktp_db.join_course (accountName, code, isTop, is_guidang) VALUES ('12123020111', 'WADUSD', 1, 0);
+INSERT INTO ktp_db.join_course (accountName, code, isTop, is_guidang, time, isOpen) VALUES ('2790895170@qq.com', 'WADUSD', 1, 0, '2023-05-13 21:25:43', 1);
+INSERT INTO ktp_db.join_course (accountName, code, isTop, is_guidang, time, isOpen) VALUES ('13267276903', 'WADUSD', 0, 0, '2023-06-13 21:25:51', 1);
+INSERT INTO ktp_db.join_course (accountName, code, isTop, is_guidang, time, isOpen) VALUES ('12123020111', 'WADUSD', 1, 0, '2023-06-13 21:25:53', 1);
+INSERT INTO ktp_db.join_course (accountName, code, isTop, is_guidang, time, isOpen) VALUES ('23334@qq.com', 'SDQGDF', 0, 0, '2023-06-14 08:56:22', 1);
+

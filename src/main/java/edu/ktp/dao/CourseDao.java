@@ -17,6 +17,8 @@ public interface CourseDao {
 
     void outClass(String accountName,String code);
 
+    void deleteClass(String code);
+
     void joinClass(String accountName, String code, LocalDateTime time);
 
     void addWorkRelation(String accountName,String code,String id);

@@ -30,6 +30,15 @@ public class CourseService {
         return new Result(true,null,"无");
     }
 
+    public Boolean deleteClass(User user,String code){
+        User user1 = userDao.getUser(user.getAccountName());
+        if(!user1.getPassword().equals(user.getPassword())){
+            return  false;
+        }
+        courseDao.deleteClass(code);
+        return true;
+    }
+
     public Result deleteTop(String accountName,String code){
         courseDao.deleteTop(accountName,code);
         return new Result(true,null,"无");

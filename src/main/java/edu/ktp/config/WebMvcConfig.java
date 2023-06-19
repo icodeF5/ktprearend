@@ -28,7 +28,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/user/loginKtp")
                 .excludePathPatterns("/user/loginAccount")
-                .excludePathPatterns("/school/*");
+                .excludePathPatterns("/school/*")
+                .excludePathPatterns("/user/autoLoginKtp");
     }
 
 

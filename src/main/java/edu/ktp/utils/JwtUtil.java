@@ -27,13 +27,11 @@ public class JwtUtil {
                 .signWith(SignatureAlgorithm.HS256, signature)
                 // 用.拼接
                 .compact();
-        log.info("过期时间==="+new Date(System.currentTimeMillis()+time));
         return jwtToken;
     }
 
     // 验证 token 是否还有效，返回具体内容
     public static Claims checkToken(String token){
-        log.info("开始获取Claims对象....");
         if (token == null){
             return null;
         }

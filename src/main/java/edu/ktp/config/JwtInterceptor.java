@@ -26,7 +26,6 @@ public class JwtInterceptor implements HandlerInterceptor {
     // 处理请求之前执行
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        log.info("进入拦截器");
         if (request.getMethod().equals("OPTIONS")) {
             return true;
         }
@@ -38,8 +37,6 @@ public class JwtInterceptor implements HandlerInterceptor {
                 // token有效，可以获取用户信息
                 String username = (String) claims.get("username"); // 获取用户名
                 String password = (String) claims.get("password"); // 获取密码
-                log.info("账号："+username);
-                log.info("密码："+password);
                 User user = userDao.getUser(username);
                 if(!password.equals(user.getPassword())){
                     response.setStatus(401);
@@ -61,7 +58,6 @@ public class JwtInterceptor implements HandlerInterceptor {
     // 处理请求之后执行
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        System.out.println("处理请求之后执行");
     }
 
 }

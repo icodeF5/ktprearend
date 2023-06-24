@@ -108,7 +108,7 @@
 
     <select id="getAllHomeWork" resultType="java.lang.String">
         select id
-        from student_work
+        from homework
         where code = #{code};
     </select>
     <select id="getByCode" resultType="edu.ktp.entity.Course">

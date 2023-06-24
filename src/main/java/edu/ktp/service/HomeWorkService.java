@@ -69,7 +69,7 @@ public class HomeWorkService {
     }
 
     public Result uploadWork(MultipartFile file, String accountName, String id,Boolean isUpdate) {
-        System.out.println("执行上传作业");
+        log.info("执行上传作业");
         // 获取文件名
         String fileName = file.getOriginalFilename();
         // 生成新的文件名

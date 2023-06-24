@@ -52,7 +52,9 @@ public class CourseService {
     public Result joinClass(String accountName,String code){
         courseDao.joinClass(accountName,code, TimeUtil.getLocalTime());
         List<String> allHomeWork = courseDao.getAllHomeWork(code);
+        log.info(allHomeWork+"所有作业id");
         for(String workId : allHomeWork){
+            log.info("增加关系");
             courseDao.addWorkRelation(accountName,code,workId);
         }
         return new Result(true,null,"添加成功");

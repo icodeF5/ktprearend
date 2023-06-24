@@ -76,6 +76,7 @@ public class HomeWorkController {
 
     @PostMapping("/publishWork")
     public Result publishWork(@RequestBody HomeWork homeWork,@RequestParam String accountName){
+        log.info(homeWork+"新建作业");
         return homeWorkService.publishWork(homeWork,accountName);
     }
     @GetMapping("/delete")
@@ -92,6 +93,7 @@ public class HomeWorkController {
 
     @PostMapping("/upload")
     public Result uploadWork(@RequestParam("file")MultipartFile file,@RequestParam String accountName,@RequestParam String id,@RequestParam Boolean isUpdate){
+        log.info("调用上传作业接口！！");
         return homeWorkService.uploadWork(file,accountName,id,isUpdate);
     }
 
